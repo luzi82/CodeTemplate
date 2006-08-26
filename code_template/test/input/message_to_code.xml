@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<template root_node_name="msg_stu_def">
+	<for_each node_name="msg_stu_pack">
+		<set>
+			<value>class_name</value>
+			<expr><pattern type="AaBb"><attribute>name</attribute></pattern>Message</expr>
+		</set>
+		<file_output>
+			<filename><value>class_name</value>.java</filename>
+			<content>
+<!-- AaaBbbMessage.java start -->
+package <value>package_name</value>;
+
+public class <value>class_name</value> extends Message{
+
+	static public final int ID_OFFSET=<attribute>offset</attribute>;
+
+	public enum Id{
+<for_each node_name="msg_stu">
+	<pattern type="AA_BB"><attribute>name</attribute></pattern><if_not_last>,</if_not_last>
+</for_each>
+		int index(){
+			return ID_OFFSET+oridinal();
+		}
+	}
+
+}
+<!-- AaaBbbMessage.java end -->
+			</content>
+		</file_output>
+	</for_each>
+</template>

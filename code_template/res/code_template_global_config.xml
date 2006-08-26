@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<code_template_global_config>
+	<module>guri.codetemplate.standardmodule.ElementStack</module>
+	<module>guri.codetemplate.standardmodule.Loop</module>
+	<module>guri.codetemplate.standardmodule.Variable</module>
+	<module>guri.codetemplate.standardmodule.FileOutput</module>
+</code_template_global_config>
