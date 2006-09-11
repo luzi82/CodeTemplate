@@ -17,7 +17,7 @@ public class CodeTemplate {
 
 	private String templateFileName;
 
-	private LinkedList<String> args = new LinkedList<String>();
+	private LinkedList<String> parameterList = new LinkedList<String>();
 
 	private CodeTemplate() {
 	}
@@ -41,7 +41,7 @@ public class CodeTemplate {
 								UNKNOW_ARG_ERROR_FORMAT, i));
 					}
 				} else {
-					this.args.add(i);
+					parameterList.add(i);
 				}
 			}
 				break;
