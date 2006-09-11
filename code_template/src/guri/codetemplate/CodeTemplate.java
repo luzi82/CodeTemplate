@@ -1,6 +1,12 @@
 package guri.codetemplate;
 
+import java.io.File;
 import java.util.LinkedList;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
+import org.w3c.dom.Document;
 
 public class CodeTemplate {
 
@@ -23,51 +29,79 @@ public class CodeTemplate {
 	}
 
 	private void exe(String[] args) {
-		ParseState parseState = ParseState.KEY;
-		for (String i : args) {
-			switch (parseState) {
-			case KEY: {
-				// read param?
-				if (i.length() >= 2 && i.charAt(0) == '-') {
-					String key = i.substring(1);
-					for (ParseState ps : ParseState.values()) {
-						if (key.equals(ps.key)) {
-							parseState = ps;
-							break;
+		try {
+			// parse param
+			ParseState parseState = ParseState.KEY;
+			for (String i : args) {
+				switch (parseState) {
+				case KEY: {
+					// read param?
+					if (i.length() >= 2 && i.charAt(0) == '-') {
+						String key = i.substring(1);
+						for (ParseState ps : ParseState.values()) {
+							if (key.equals(ps.key)) {
+								parseState = ps;
+								break;
+							}
 						}
+						if (parseState == ParseState.KEY) {
+							throw new IllegalArgumentException(String.format(
+									UNKNOW_ARG_ERROR_FORMAT, i));
+						}
+					} else {
+						parameterList.add(i);
 					}
-					if (parseState == ParseState.KEY) {
-						throw new IllegalArgumentException(String.format(
-								UNKNOW_ARG_ERROR_FORMAT, i));
-					}
-				} else {
-					parameterList.add(i);
+				}
+					break;
+				case GLOBAL_SETTING_FILE_NAME: {
+					if (globalSettingFileName == null) {
+						globalSettingFileName = i;
+						parseState = ParseState.KEY;
+					} else
+						throw new IllegalArgumentException(
+								TOO_MUCH_GLOBAL_ERROR_TEXT);
+				}
+					break;
+				case TEMPLATE_FILE_NAME: {
+					templateFileName = i;
+					parseState = ParseState.KEY;
+				}
+					break;
 				}
 			}
-				break;
-			case GLOBAL_SETTING_FILE_NAME: {
-				if (globalSettingFileName == null) {
-					globalSettingFileName = i;
-					parseState = ParseState.KEY;
-				} else
-					throw new IllegalArgumentException(
-							TOO_MUCH_GLOBAL_ERROR_TEXT);
+			if (parseState != ParseState.KEY)
+				throw new IllegalArgumentException(ARG_NOT_END_ERROR_TEXT);
+			if (templateFileName == null) {
+				throw new IllegalArgumentException(NO_TEMPLATE_ERROR_TEXT);
 			}
-				break;
-			case TEMPLATE_FILE_NAME: {
-				templateFileName = i;
-				parseState = ParseState.KEY;
-			}
-				break;
-			}
+
+			// init code template
+			CodeTemplateGlobalConfig.instance().init(globalSettingFileName);
+			CodeTemplateModuleContainer.instance().init();
+
+			// get template document
+			DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory
+					.newInstance();
+			DocumentBuilder documentBuilder = documentBuilderFactory
+					.newDocumentBuilder();
+			Document xmlDocument = documentBuilder.parse(new File(
+					templateFileName));
+
+			// scan
+			String output = CodeTemplateModuleContainer.instance().parseChilds(
+					xmlDocument.getDocumentElement());
+			System.out.println(output);
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.exit(-1);
 		}
-		if (parseState != ParseState.KEY)
-			throw new IllegalArgumentException(ARG_NOT_END_ERROR_TEXT);
-		if (templateFileName == null) {
-			throw new IllegalArgumentException(NO_TEMPLATE_ERROR_TEXT);
-		}
-		CodeTemplateGlobalConfig.instance().init(globalSettingFileName);
-		CodeTemplateModuleContainer.instance().init();
+	}
+
+	// ///////////////////////////////
+	// PARAMETER STUFF
+
+	public String parameter(int index) {
+		return parameterList.get(index);
 	}
 
 	// /////////////////////////////

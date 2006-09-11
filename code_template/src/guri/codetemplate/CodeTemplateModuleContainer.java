@@ -2,6 +2,10 @@ package guri.codetemplate;
 
 import java.util.LinkedList;
 
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.Text;
+
 public class CodeTemplateModuleContainer {
 
 	private LinkedList<CodeTemplateModule> moduleList = new LinkedList<CodeTemplateModule>();
@@ -23,6 +27,22 @@ public class CodeTemplateModuleContainer {
 			e.printStackTrace();
 			System.exit(-1);
 		}
+	}
+
+	public String parse(Element element) {
+		return null;
+	}
+
+	public String parseChilds(Element element) {
+		StringBuffer outBuffer = new StringBuffer();
+		Node child = element.getFirstChild();
+		while (child != null) {
+			if (child instanceof Text) {
+				outBuffer.append(child.getTextContent());
+			}
+			child = child.getNextSibling();
+		}
+		return outBuffer.toString();
 	}
 
 	// /////////////////////////////

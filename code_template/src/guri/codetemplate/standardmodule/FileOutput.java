@@ -7,7 +7,6 @@ import guri.codetemplate.CodeTemplateModule;
 public class FileOutput implements CodeTemplateModule {
 
 	public String parse(Element element) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
