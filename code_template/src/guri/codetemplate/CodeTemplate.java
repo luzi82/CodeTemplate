@@ -5,8 +5,7 @@ import java.util.LinkedList;
 public class CodeTemplate {
 
 	private enum ParseState {
-		KEY(null), GLOBAL_SETTING_FILE_NAME("g"), TEMPLATE_FILE_NAME("t"), DEFINATION_FILE_NAME(
-				"d"), ;
+		KEY(null), GLOBAL_SETTING_FILE_NAME("g"), TEMPLATE_FILE_NAME("t"), ;
 		String key;
 
 		ParseState(String key) {
@@ -16,9 +15,9 @@ public class CodeTemplate {
 
 	private String globalSettingFileName;
 
-	private LinkedList<String> templateFileName = new LinkedList<String>();
+	private String templateFileName;
 
-	private LinkedList<String> definationFileName = new LinkedList<String>();
+	private LinkedList<String> args = new LinkedList<String>();
 
 	private CodeTemplate() {
 	}
@@ -37,16 +36,13 @@ public class CodeTemplate {
 							break;
 						}
 					}
+					if (parseState == ParseState.KEY) {
+						throw new IllegalArgumentException(String.format(
+								UNKNOW_ARG_ERROR_FORMAT, i));
+					}
+				} else {
+					this.args.add(i);
 				}
-				if (parseState == ParseState.KEY) {
-					throw new IllegalArgumentException(String.format(
-							UNKNOW_ARG_ERROR_FORMAT, i));
-				}
-			}
-				break;
-			case DEFINATION_FILE_NAME: {
-				definationFileName.add(i);
-				parseState = ParseState.KEY;
 			}
 				break;
 			case GLOBAL_SETTING_FILE_NAME: {
@@ -59,7 +55,7 @@ public class CodeTemplate {
 			}
 				break;
 			case TEMPLATE_FILE_NAME: {
-				templateFileName.add(i);
+				templateFileName = i;
 				parseState = ParseState.KEY;
 			}
 				break;
@@ -67,7 +63,7 @@ public class CodeTemplate {
 		}
 		if (parseState != ParseState.KEY)
 			throw new IllegalArgumentException(ARG_NOT_END_ERROR_TEXT);
-		if (templateFileName.size() == 0) {
+		if (templateFileName == null) {
 			throw new IllegalArgumentException(NO_TEMPLATE_ERROR_TEXT);
 		}
 	}
