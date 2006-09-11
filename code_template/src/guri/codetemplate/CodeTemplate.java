@@ -66,6 +66,8 @@ public class CodeTemplate {
 		if (templateFileName == null) {
 			throw new IllegalArgumentException(NO_TEMPLATE_ERROR_TEXT);
 		}
+		CodeTemplateGlobalConfig.instance().init(globalSettingFileName);
+		CodeTemplateModuleContainer.instance().init();
 	}
 
 	// /////////////////////////////
@@ -78,6 +80,9 @@ public class CodeTemplate {
 			instance = new CodeTemplate();
 		return instance;
 	}
+
+	// ////////////////////////////////////
+	// MAIN
 
 	/**
 	 * @param args
