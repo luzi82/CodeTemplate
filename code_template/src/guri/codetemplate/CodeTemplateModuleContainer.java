@@ -30,7 +30,12 @@ public class CodeTemplateModuleContainer {
 	}
 
 	public String parse(Element element) {
-		return null;
+		for (CodeTemplateModule module : moduleList) {
+			String out = module.parse(element);
+			if (out != null)
+				return out;
+		}
+		return PARSE_ELEMENT_FAIL;
 	}
 
 	public String parseChilds(Element element) {
@@ -39,6 +44,8 @@ public class CodeTemplateModuleContainer {
 		while (child != null) {
 			if (child instanceof Text) {
 				outBuffer.append(child.getTextContent());
+			} else if (child instanceof Element) {
+				outBuffer.append(parse((Element) child));
 			}
 			child = child.getNextSibling();
 		}
@@ -55,5 +62,10 @@ public class CodeTemplateModuleContainer {
 			instance = new CodeTemplateModuleContainer();
 		return instance;
 	}
+
+	// /////////////////////////////////
+	// CONST
+
+	private static final String PARSE_ELEMENT_FAIL = "!!!UNPARSABLE!!!";
 
 }
