@@ -1,13 +1,8 @@
 <?xml version="1.0"?>
 <template root_node_name="msg_stu_def">
 	<for_each node_name="msg_stu_pack">
-		<set>
-			<value>class_name</value>
-			<expr><pattern type="AaBb"><attribute>name</attribute></pattern>Message</expr>
-		</set>
-		<file_output>
-			<filename><value>class_name</value>.java</filename>
-			<content>
+		<set><variable>class_name</variable><value><pattern type="AaBb"><attribute>name</attribute></pattern>Message</value><scope>
+			<file_output><filename><value>class_name</value>.java</filename><content>
 <!-- AaaBbbMessage.java start -->
 package <value>package_name</value>;
 
@@ -26,7 +21,7 @@ public class <value>class_name</value> extends Message{
 
 }
 <!-- AaaBbbMessage.java end -->
-			</content>
-		</file_output>
+			</content></file_output>
+		</scope></set>
 	</for_each>
 </template>
