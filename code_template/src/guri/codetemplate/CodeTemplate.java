@@ -1,12 +1,10 @@
 package guri.codetemplate;
 
-import java.io.File;
+import guri.codetemplate.standardmodule.Util;
+
 import java.util.LinkedList;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-
-import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 public class CodeTemplate {
 
@@ -79,17 +77,12 @@ public class CodeTemplate {
 			CodeTemplateGlobalConfig.instance().init(globalSettingFileName);
 			CodeTemplateModuleContainer.instance().init();
 
-			// get template document
-			DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory
-					.newInstance();
-			DocumentBuilder documentBuilder = documentBuilderFactory
-					.newDocumentBuilder();
-			Document xmlDocument = documentBuilder.parse(new File(
-					templateFileName));
+			// get element
+			Element element = Util.getElement(templateFileName);
 
-			// scan
+			// parse element
 			String output = CodeTemplateModuleContainer.instance().parseChilds(
-					xmlDocument.getDocumentElement());
+					element);
 			System.out.println(output);
 		} catch (Exception e) {
 			e.printStackTrace();

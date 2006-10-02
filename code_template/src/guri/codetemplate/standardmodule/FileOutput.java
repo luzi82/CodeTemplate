@@ -1,14 +1,13 @@
 package guri.codetemplate.standardmodule;
 
+import guri.codetemplate.CodeTemplateModule;
+import guri.codetemplate.CodeTemplateModuleContainer;
+
 import java.io.BufferedWriter;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 
-import guri.codetemplate.CodeTemplateModule;
-import guri.codetemplate.CodeTemplateModuleContainer;
-
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 
 public class FileOutput implements CodeTemplateModule {
 
@@ -16,27 +15,10 @@ public class FileOutput implements CodeTemplateModule {
 		try {
 			if (!element.getNodeName().equals("file_output"))
 				return null;
-			Element fileNameNode = null;
-			Element scopeNode = null;
-			Node child = element.getFirstChild();
-			while (child != null) {
-				if (child instanceof Element) {
-					Element childE = (Element) child;
-					if (childE.getNodeName().equals("filename")) {
-						if (fileNameNode == null)
-							fileNameNode = childE;
-						else
-							throw new IllegalArgumentException();
-					} else if (childE.getNodeName().equals("scope")) {
-						if (scopeNode == null)
-							scopeNode = childE;
-						else
-							throw new IllegalArgumentException();
-					}
-				}
-				child = child.getNextSibling();
-			}
-			if (scopeNode == null || fileNameNode == null)
+
+			Element fileNameNode = Util.getUniqueChildElementInNodeName(element, "filename");
+			Element scopeNode = Util.getUniqueChildElementInNodeName(element, "scope");
+			if (fileNameNode == null || scopeNode == null)
 				throw new IllegalArgumentException();
 
 			boolean bubble = Util.isTrue(element.getAttribute("bubble"), true);
@@ -63,7 +45,7 @@ public class FileOutput implements CodeTemplateModule {
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.exit(-1);
-			throw new Error();
+			throw new Error(e);
 		}
 	}
 
