@@ -1,7 +1,8 @@
 package guri.codetemplate.standardmodule;
 
 public class DataTableCoordinate implements Comparable<DataTableCoordinate> {
-	public int[] coordinate;
+
+	final public int[] coordinate;
 
 	public DataTableCoordinate(int[] coordinate) {
 		this.coordinate = coordinate;
@@ -12,6 +13,21 @@ public class DataTableCoordinate implements Comparable<DataTableCoordinate> {
 		int i;
 		for (i = 0; i < size; ++i) {
 			coordinate[i] = -1;
+		}
+	}
+
+	public DataTableCoordinate(DataTableCoordinate a, DataTableCoordinate b) {
+		this(a.coordinate.length);
+		if (a.coordinate.length != b.coordinate.length)
+			throw new IllegalArgumentException();
+		int i;
+		for (i = 0; i < coordinate.length; ++i) {
+			if (a.coordinate[i] != -1 && b.coordinate[i] != -1)
+				throw new IllegalArgumentException();
+			if (a.coordinate[i] == -1)
+				coordinate[i] = b.coordinate[i];
+			else
+				coordinate[i] = a.coordinate[i];
 		}
 	}
 
@@ -33,6 +49,18 @@ public class DataTableCoordinate implements Comparable<DataTableCoordinate> {
 				return diff;
 		}
 		return 0;
+	}
+
+	public boolean unique() {
+		for (int i : coordinate) {
+			if (i == -1)
+				return false;
+		}
+		return true;
+	}
+
+	public int dimension() {
+		return coordinate.length;
 	}
 
 }

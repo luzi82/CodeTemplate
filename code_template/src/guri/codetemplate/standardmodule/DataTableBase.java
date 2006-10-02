@@ -4,9 +4,9 @@ import java.util.TreeMap;
 
 public class DataTableBase {
 
-	private TreeMap<DataTableCoordinate, String> data = new TreeMap<DataTableCoordinate, String>();
+	private final TreeMap<DataTableCoordinate, String> data = new TreeMap<DataTableCoordinate, String>();
 
-	int dimension;
+	final int dimension;
 
 	public DataTableBase(int dimension) {
 		this.dimension = dimension;
@@ -17,7 +17,9 @@ public class DataTableBase {
 			throw new NullPointerException();
 		if (data == null)
 			throw new NullPointerException();
-		if (coordinate.coordinate.length != dimension)
+		if (coordinate.dimension() != dimension)
+			throw new IllegalArgumentException();
+		if (!coordinate.unique())
 			throw new IllegalArgumentException();
 		if (this.data.containsKey(coordinate))
 			throw new IllegalArgumentException();
@@ -27,6 +29,10 @@ public class DataTableBase {
 	public String getData(DataTableCoordinate coordinate) {
 		if (coordinate == null)
 			throw new NullPointerException();
+		if (coordinate.dimension() != dimension)
+			throw new IllegalArgumentException();
+		if (!coordinate.unique())
+			throw new IllegalArgumentException();
 		String out = data.get(coordinate);
 		return (out != null) ? out : "";
 	}
