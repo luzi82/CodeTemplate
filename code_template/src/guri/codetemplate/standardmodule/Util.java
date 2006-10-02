@@ -36,6 +36,19 @@ public class Util {
 		return defaultValue;
 	}
 
+	public static LinkedList<Element> getAllChildElement(Node parent) {
+		LinkedList<Element> out = new LinkedList<Element>();
+		Node child = parent.getFirstChild();
+		while (child != null) {
+			if (child instanceof Element) {
+				Element childE = (Element) child;
+				out.add(childE);
+			}
+			child = child.getNextSibling();
+		}
+		return out;
+	}
+
 	public static LinkedList<Element> getAllChildElementInNodeName(Node parent,
 			String nodeName) {
 		LinkedList<Element> out = new LinkedList<Element>();
@@ -82,6 +95,11 @@ public class Util {
 			e.printStackTrace();
 			throw new Error(e);
 		}
+	}
+
+	public static int getIntAttr(Element element, String attr, int def) {
+		String value = element.getAttribute(attr);
+		return (value.length() > 0) ? Integer.parseInt(value) : def;
 	}
 
 }
