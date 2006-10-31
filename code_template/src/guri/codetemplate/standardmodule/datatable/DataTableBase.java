@@ -1,12 +1,14 @@
-package guri.codetemplate.standardmodule;
+package guri.codetemplate.standardmodule.datatable;
 
+import java.util.Set;
 import java.util.TreeMap;
+import java.util.TreeSet;
 
 public class DataTableBase {
 
 	private final TreeMap<DataTableCoordinate, String> data = new TreeMap<DataTableCoordinate, String>();
 
-	final int dimension;
+	final public int dimension;
 
 	public DataTableBase(int dimension) {
 		this.dimension = dimension;
@@ -21,8 +23,13 @@ public class DataTableBase {
 			throw new IllegalArgumentException();
 		if (!coordinate.unique())
 			throw new IllegalArgumentException();
-		if (this.data.containsKey(coordinate))
+		if (this.data.containsKey(coordinate)){
+//			System.err.println(this.data.size());
+//			for(String i:coordinate.coordinate()){
+//				System.err.println(i);
+//			}
 			throw new IllegalArgumentException();
+		}
 		this.data.put(coordinate, data);
 	}
 
@@ -35,6 +42,10 @@ public class DataTableBase {
 			throw new IllegalArgumentException();
 		String out = data.get(coordinate);
 		return (out != null) ? out : "";
+	}
+
+	public Set<DataTableCoordinate> keySet() {
+		return new TreeSet<DataTableCoordinate>(data.keySet());
 	}
 
 }

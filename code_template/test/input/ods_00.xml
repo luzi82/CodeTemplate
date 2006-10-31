@@ -2,6 +2,14 @@
 <template>
 <ods_input table:view-id="tid_00">
 	<filename>ods_sample.ods</filename>
-	<scope></scope>
+	<scope>
+		<table:loop-view table:src-view-id="tid_00" table:dimension-id="0" table:tar-view-id="tid_01">
+			<table:loop-view table:src-view-id="tid_01" table:dimension-id="1" table:tar-view-id="tid_02">
+				<table:loop-view table:src-view-id="tid_02" table:dimension-id="2" table:tar-view-id="tid_03">
+					<table:view-coor table:src-view-id="tid_03" table:dimension-id="0"/>_<table:view-coor table:src-view-id="tid_03" table:dimension-id="1"/>_<table:view-coor table:src-view-id="tid_03" table:dimension-id="2"/>=<table:view-value table:src-view-id="tid_03"/>
+				</table:loop-view>
+			</table:loop-view>
+		</table:loop-view>
+	</scope>
 </ods_input>
 </template>
