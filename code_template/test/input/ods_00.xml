@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <template>
-<ods_input>
-<filename>ods_sample.ods</filename>
+<ods_input table:view-id="tid_00">
+	<filename>ods_sample.ods</filename>
+	<scope></scope>
 </ods_input>
 </template>

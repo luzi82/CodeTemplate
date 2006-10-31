@@ -22,9 +22,11 @@ public class DataTableCoordinate implements Comparable<DataTableCoordinate> {
 			throw new IllegalArgumentException();
 		int i;
 		for (i = 0; i < coordinate.length; ++i) {
-			if (a.coordinate[i] != -1 && b.coordinate[i] != -1)
+			if (a.coordinate[i] == b.coordinate[i])
+				coordinate[i] = a.coordinate[i];
+			else if (a.coordinate[i] != -1 && b.coordinate[i] != -1)
 				throw new IllegalArgumentException();
-			if (a.coordinate[i] == -1)
+			else if (a.coordinate[i] == -1)
 				coordinate[i] = b.coordinate[i];
 			else
 				coordinate[i] = a.coordinate[i];

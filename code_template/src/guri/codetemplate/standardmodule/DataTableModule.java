@@ -11,8 +11,18 @@ public class DataTableModule implements CodeTemplateModule {
 	static private TreeMap<String, DataTableView> tableView = new TreeMap<String, DataTableView>();
 
 	public String parse(Element element) {
-		// TODO Auto-generated method stub
-		return null;
+		try {
+			// switch element name
+			String nodeName = element.getNodeName();
+			if (nodeName.equals("table:create-view")) {
+				return null;
+			} else
+				return null;
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.exit(-1);
+			throw new Error(e);
+		}
 	}
 
 	static public void addView(String key, DataTableView view) {
