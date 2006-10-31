@@ -16,10 +16,10 @@ public class OdsTable {
 	public void put(int y, int z, String value) {
 		OdsCoordinate coor = new OdsCoordinate(y, z);
 		map.put(coor, value);
-		if (y > yMax)
-			yMax = y;
-		if (z > zMax)
-			zMax = z;
+		if (y + 1 > yMax)
+			yMax = y + 1;
+		if (z + 1 > zMax)
+			zMax = z + 1;
 	}
 
 	public int yMax() {
