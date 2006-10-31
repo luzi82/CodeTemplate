@@ -5,6 +5,7 @@
 	<module>guri.codetemplate.standardmodule.Parameter</module>
 	<module>guri.codetemplate.standardmodule.FileOutput</module>
 	<module>guri.codetemplate.standardmodule.HelloWorld</module>
+	<module>guri.codetemplate.standardmodule.Zero</module>
 	<module>guri.codetemplate.standardmodule.ods.OdsInputModule</module>
 	<module>guri.codetemplate.standardmodule.datatable.DataTableModule</module>
 </code_template_global_config>
