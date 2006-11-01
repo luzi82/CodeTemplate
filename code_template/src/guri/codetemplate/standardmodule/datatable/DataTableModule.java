@@ -71,6 +71,42 @@ public class DataTableModule implements CodeTemplateModule {
 				if (!oriView.coordinate().unique())
 					throw new IllegalArgumentException();
 				return oriView.value();
+			} else if (nodeName.equals("table:subview")) {
+				String srcId = element.getAttribute("table:src-view-id");
+				String tarId = element.getAttribute("table:tar-view-id");
+				if (srcId == null)
+					throw new IllegalArgumentException();
+				if (tarId == null)
+					throw new IllegalArgumentException();
+				int dimension = Util.getIntAttr(element, "table:dimension-id",
+						-1);
+				if (dimension < 0)
+					throw new IllegalArgumentException();
+				DataTableView oriView = tableView.get(srcId);
+				if (oriView == null)
+					throw new IllegalArgumentException();
+				if (dimension >= oriView.dimension())
+					throw new IllegalArgumentException();
+				Element dimensionValueElement = Util
+						.getUniqueChildElementInNodeName(element,
+								"table:dimension-value");
+				if (dimensionValueElement == null)
+					throw new IllegalArgumentException();
+				String dimensionValue = CodeTemplateModuleContainer.instance()
+						.parseChilds(dimensionValueElement);
+				String[] coor = new String[oriView.dimension()];
+				coor[dimension] = dimensionValue;
+				DataTableView newView = new DataTableView(oriView,
+						new DataTableCoordinate(coor));
+				addView(tarId, newView);
+				Element scope = Util.getUniqueChildElementInNodeName(element,
+						"scope");
+				if(scope==null)
+					throw new IllegalArgumentException();
+				String ret = CodeTemplateModuleContainer.instance()
+						.parseChilds(scope);
+				removeView(tarId);
+				return ret;
 			} else
 				return null;
 		} catch (Exception e) {

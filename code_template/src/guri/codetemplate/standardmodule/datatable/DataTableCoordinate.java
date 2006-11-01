@@ -21,14 +21,16 @@ public class DataTableCoordinate implements Comparable<DataTableCoordinate> {
 			throw new IllegalArgumentException();
 		int i;
 		for (i = 0; i < coordinate.length; ++i) {
-			if (a.coordinate[i] == b.coordinate[i])
-				coordinate[i] = a.coordinate[i];
-			else if (a.coordinate[i] != null && b.coordinate[i] != null)
-				throw new IllegalArgumentException();
+			if (a.coordinate[i] == null && b.coordinate[i] == null)
+				coordinate[i] = null;
 			else if (a.coordinate[i] == null)
 				coordinate[i] = b.coordinate[i];
-			else
+			else if (b.coordinate[i] == null)
 				coordinate[i] = a.coordinate[i];
+			else if (a.coordinate[i].equals(b.coordinate[i]))
+				coordinate[i] = a.coordinate[i];
+			else
+				throw new IllegalArgumentException();
 		}
 	}
 
@@ -69,7 +71,7 @@ public class DataTableCoordinate implements Comparable<DataTableCoordinate> {
 		for (int i = 0; i < dimension(); ++i) {
 			if (coordinate[i] == null)
 				continue;
-			if (coor.coordinate[i] != coordinate[i]) {
+			if (!coor.coordinate[i].equals(coordinate[i])) {
 				return false;
 			}
 		}
