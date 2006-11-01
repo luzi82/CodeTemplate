@@ -8,12 +8,12 @@ import guri.codetemplate.CodeTemplateModuleContainer;
 public class CompareSwitchModule implements CodeTemplateModule {
 
 	public String parse(Element element) {
-		if (!element.getNodeName().equals("compare-switch"))
+		if (!element.getNodeName().equals("if"))
 			return null;
 		Element lhsElement = Util.getUniqueChildElementInNodeName(element,
-				"compare-switch:lhs");
+				"lhs");
 		Element rhsElement = Util.getUniqueChildElementInNodeName(element,
-				"compare-switch:rhs");
+				"rhs");
 		String lhsString = CodeTemplateModuleContainer.instance().parseChilds(
 				lhsElement);
 		String rhsString = CodeTemplateModuleContainer.instance().parseChilds(
@@ -21,37 +21,37 @@ public class CompareSwitchModule implements CodeTemplateModule {
 		int diff = lhsString.compareTo(rhsString);
 		if (diff == 0) {
 			Element ele = Util.getUniqueChildElementInNodeName(element,
-					"compare-switch:eq");
+					"eq");
 			if (ele != null)
 				return CodeTemplateModuleContainer.instance().parseChilds(ele);
 		}
 		if (diff > 0) {
 			Element ele = Util.getUniqueChildElementInNodeName(element,
-					"compare-switch:lt");
+					"lt");
 			if (ele != null)
 				return CodeTemplateModuleContainer.instance().parseChilds(ele);
 		}
 		if (diff < 0) {
 			Element ele = Util.getUniqueChildElementInNodeName(element,
-					"compare-switch:gt");
+					"gt");
 			if (ele != null)
 				return CodeTemplateModuleContainer.instance().parseChilds(ele);
 		}
 		if (diff <= 0) {
 			Element ele = Util.getUniqueChildElementInNodeName(element,
-					"compare-switch:lte");
+					"lte");
 			if (ele != null)
 				return CodeTemplateModuleContainer.instance().parseChilds(ele);
 		}
 		if (diff >= 0) {
 			Element ele = Util.getUniqueChildElementInNodeName(element,
-					"compare-switch:gte");
+					"gte");
 			if (ele != null)
 				return CodeTemplateModuleContainer.instance().parseChilds(ele);
 		}
 		if (diff != 0) {
 			Element ele = Util.getUniqueChildElementInNodeName(element,
-					"compare-switch:neq");
+					"neq");
 			if (ele != null)
 				return CodeTemplateModuleContainer.instance().parseChilds(ele);
 		}

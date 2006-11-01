@@ -13,10 +13,10 @@ public class FileOutput implements CodeTemplateModule {
 
 	public String parse(Element element) {
 		try {
-			if (!element.getNodeName().equals("file_output"))
+			if (!element.getNodeName().equals("file_out"))
 				return null;
 
-			Element fileNameNode = Util.getUniqueChildElementInNodeName(element, "filename");
+			Element fileNameNode = Util.getUniqueChildElementInNodeName(element, "file");
 			Element scopeNode = Util.getUniqueChildElementInNodeName(element, "scope");
 			if (fileNameNode == null || scopeNode == null)
 				throw new IllegalArgumentException();

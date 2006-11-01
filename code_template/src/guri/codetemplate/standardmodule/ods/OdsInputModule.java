@@ -21,17 +21,17 @@ public class OdsInputModule implements CodeTemplateModule {
 	public String parse(Element element) {
 		try {
 			// check note name
-			if (!element.getNodeName().equals("ods_input"))
+			if (!element.getNodeName().equals("ods"))
 				return null;
 
 			// obtain table id
-			String tableId = element.getAttribute("table:view-id");
+			String tableId = element.getAttribute("id");
 			if (tableId.length() <= 0)
 				throw new IllegalArgumentException();
 
 			// get file name
 			Element fileNameElement = Util.getUniqueChildElementInNodeName(
-					element, "filename");
+					element, "file");
 			if (fileNameElement == null)
 				throw new IllegalArgumentException();
 

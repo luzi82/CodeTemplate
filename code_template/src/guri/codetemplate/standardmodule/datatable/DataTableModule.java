@@ -17,11 +17,10 @@ public class DataTableModule implements CodeTemplateModule {
 		try {
 			// switch element name
 			String nodeName = element.getNodeName();
-			if (nodeName.equals("table:loop-view")) {
-				String srcId = element.getAttribute("table:src-view-id");
-				String tarId = element.getAttribute("table:tar-view-id");
-				int dimension = Util.getIntAttr(element, "table:dimension-id",
-						-1);
+			if (nodeName.equals("for_view")) {
+				String srcId = element.getAttribute("src");
+				String tarId = element.getAttribute("id");
+				int dimension = Util.getIntAttr(element, "did", -1);
 				if (srcId == null)
 					throw new IllegalArgumentException();
 				if (tarId == null)
@@ -44,12 +43,11 @@ public class DataTableModule implements CodeTemplateModule {
 					removeView(tarId);
 				}
 				return ret.toString();
-			} else if (nodeName.equals("table:view-coor")) {
-				String srcId = element.getAttribute("table:src-view-id");
+			} else if (nodeName.equals("view_coor")) {
+				String srcId = element.getAttribute("src");
 				if (srcId == null)
 					throw new IllegalArgumentException();
-				int dimension = Util.getIntAttr(element, "table:dimension-id",
-						-1);
+				int dimension = Util.getIntAttr(element, "did", -1);
 				if (dimension < 0)
 					throw new IllegalArgumentException();
 				DataTableView oriView = tableView.get(srcId);
@@ -61,8 +59,8 @@ public class DataTableModule implements CodeTemplateModule {
 				if (ret == null)
 					throw new IllegalArgumentException();
 				return ret;
-			} else if (nodeName.equals("table:view-value")) {
-				String srcId = element.getAttribute("table:src-view-id");
+			} else if (nodeName.equals("view_value")) {
+				String srcId = element.getAttribute("src");
 				if (srcId == null)
 					throw new IllegalArgumentException();
 				DataTableView oriView = tableView.get(srcId);
@@ -71,15 +69,14 @@ public class DataTableModule implements CodeTemplateModule {
 				if (!oriView.coordinate().unique())
 					throw new IllegalArgumentException();
 				return oriView.value();
-			} else if (nodeName.equals("table:subview")) {
-				String srcId = element.getAttribute("table:src-view-id");
-				String tarId = element.getAttribute("table:tar-view-id");
+			} else if (nodeName.equals("subview")) {
+				String srcId = element.getAttribute("src");
+				String tarId = element.getAttribute("id");
 				if (srcId == null)
 					throw new IllegalArgumentException();
 				if (tarId == null)
 					throw new IllegalArgumentException();
-				int dimension = Util.getIntAttr(element, "table:dimension-id",
-						-1);
+				int dimension = Util.getIntAttr(element, "did", -1);
 				if (dimension < 0)
 					throw new IllegalArgumentException();
 				DataTableView oriView = tableView.get(srcId);
@@ -88,8 +85,7 @@ public class DataTableModule implements CodeTemplateModule {
 				if (dimension >= oriView.dimension())
 					throw new IllegalArgumentException();
 				Element dimensionValueElement = Util
-						.getUniqueChildElementInNodeName(element,
-								"table:dimension-value");
+						.getUniqueChildElementInNodeName(element, "coor");
 				if (dimensionValueElement == null)
 					throw new IllegalArgumentException();
 				String dimensionValue = CodeTemplateModuleContainer.instance()
@@ -101,7 +97,7 @@ public class DataTableModule implements CodeTemplateModule {
 				addView(tarId, newView);
 				Element scope = Util.getUniqueChildElementInNodeName(element,
 						"scope");
-				if(scope==null)
+				if (scope == null)
 					throw new IllegalArgumentException();
 				String ret = CodeTemplateModuleContainer.instance()
 						.parseChilds(scope);
