@@ -10,7 +10,7 @@ public class Parameter implements CodeTemplateModule {
 	public String parse(Element element) {
 		if (!element.getNodeName().equals("parameter"))
 			return null;
-		int index = Integer.parseInt(element.getAttribute("index"));
+		int index = Integer.parseInt(element.getAttribute("id"));
 		return CodeTemplate.instance().parameter(index);
 	}
 

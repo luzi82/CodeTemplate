@@ -106,24 +106,44 @@ public class OdsInputModule implements CodeTemplateModule {
 								if (txtElement != null) {
 									Node txtElementChild = txtElement
 											.getFirstChild();
-									if (txtElementChild instanceof Text) {
-										Text txtElementChildT = (Text) txtElementChild;
-										String txt = txtElementChildT
-												.getNodeValue();
-										for (int cw1 = 0; cw1 < rowRepeat
-												+ rowSpan - 1; ++cw1) {
-											for (int cw2 = 0; cw2 < colRepeat
-													+ colSpan - 1; ++cw2) {
-												int cc1 = cw1 + intCoorZ;
-												int cc2 = cw2 + intCoorY;
-												// int[] cc = { cc1, cc2 };
-												// base
-												// .setData(
-												// new DataTableCoordinate(
-												// cc),
-												// txt);
-												odsTable.put(cc2, cc1, txt);
+									StringBuffer valueBuffer = new StringBuffer();
+									while (txtElementChild != null) {
+										if (txtElementChild instanceof Text) {
+											Text txtElementChildT = (Text) txtElementChild;
+											String txt = txtElementChildT
+													.getNodeValue();
+											valueBuffer.append(txt);
+										} else if (txtElementChild instanceof Element) {
+											Element txtElementChildE = (Element) txtElementChild;
+											if (txtElementChildE.getNodeName()
+													.equals("text:s")) {
+												valueBuffer.append(" ");
+											} else if (txtElementChildE
+													.getNodeName().equals(
+															"text:span")) {
+												valueBuffer
+														.append(txtElementChildE
+																.getFirstChild()
+																.getNodeValue());
 											}
+										}
+										txtElementChild = txtElementChild
+												.getNextSibling();
+									}
+									for (int cw1 = 0; cw1 < rowRepeat + rowSpan
+											- 1; ++cw1) {
+										for (int cw2 = 0; cw2 < colRepeat
+												+ colSpan - 1; ++cw2) {
+											int cc1 = cw1 + intCoorZ;
+											int cc2 = cw2 + intCoorY;
+											// int[] cc = { cc1, cc2 };
+											// base
+											// .setData(
+											// new DataTableCoordinate(
+											// cc),
+											// txt);
+											odsTable.put(cc2, cc1, valueBuffer
+													.toString());
 										}
 									}
 								}
