@@ -117,7 +117,17 @@ public class OdsInputModule implements CodeTemplateModule {
 											Element txtElementChildE = (Element) txtElementChild;
 											if (txtElementChildE.getNodeName()
 													.equals("text:s")) {
-												valueBuffer.append(" ");
+												int length = 1;
+												String textC = txtElementChildE
+														.getAttribute("text:c");
+												if (textC != null
+														&& textC.length() > 0) {
+													length = Integer
+															.parseInt(textC);
+												}
+												for (int i = 0; i < length; ++i) {
+													valueBuffer.append(" ");
+												}
 											} else if (txtElementChildE
 													.getNodeName().equals(
 															"text:span")) {
