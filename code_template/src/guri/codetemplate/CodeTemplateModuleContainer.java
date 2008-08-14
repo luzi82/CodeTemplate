@@ -13,6 +13,7 @@ public class CodeTemplateModuleContainer {
 	private CodeTemplateModuleContainer() {
 	}
 
+	@SuppressWarnings("unchecked")
 	public void init() {
 		try {
 			LinkedList<String> moduleClassList = CodeTemplateGlobalConfig

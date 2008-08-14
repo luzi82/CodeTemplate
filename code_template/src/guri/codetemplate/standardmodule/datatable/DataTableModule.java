@@ -59,6 +59,33 @@ public class DataTableModule implements CodeTemplateModule {
 				if (ret == null)
 					throw new IllegalArgumentException();
 				return ret;
+			} else if (nodeName.equals("coor_id")) {
+				String srcId = element.getAttribute("src");
+				int dimension = Util.getIntAttr(element, "did", -1);
+				if (srcId == null)
+					throw new IllegalArgumentException();
+				if (dimension < 0)
+					throw new IllegalArgumentException();
+				
+				String coor=CodeTemplateModuleContainer.instance().parseChilds(element);
+				
+				DataTableView oriView = tableView.get(srcId);
+				if (oriView == null)
+					throw new IllegalArgumentException();
+				if (dimension >= oriView.dimension())
+					throw new IllegalArgumentException();
+				Set<DataTableCoordinate> subViewCoor = oriView
+						.getSubViewCoorSet(dimension);
+				String ret=null;
+				int j=0;
+				for (DataTableCoordinate i : subViewCoor) {
+					if(i.coordinate(dimension).equals(coor))
+					{
+						ret=""+j;
+					}
+					++j;
+				}
+				return ret;
 			} else if (nodeName.equals("view_value")) {
 				String srcId = element.getAttribute("src");
 				if (srcId == null)
