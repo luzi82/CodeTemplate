@@ -13,13 +13,12 @@ public class CodeTemplateModuleContainer {
 	private CodeTemplateModuleContainer() {
 	}
 
-	@SuppressWarnings("unchecked")
 	public void init() {
 		try {
 			LinkedList<String> moduleClassList = CodeTemplateGlobalConfig
 					.instance().getModuleList();
 			for (String i : moduleClassList) {
-				Class moduleClass = Class.forName(i);
+				Class<?> moduleClass = Class.forName(i);
 				CodeTemplateModule module = (CodeTemplateModule) moduleClass
 						.newInstance();
 				moduleList.add(module);
