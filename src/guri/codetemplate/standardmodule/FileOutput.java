@@ -4,6 +4,7 @@ import guri.codetemplate.CodeTemplateModule;
 import guri.codetemplate.CodeTemplateModuleContainer;
 
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.util.Iterator;
@@ -27,6 +28,7 @@ public class FileOutput implements CodeTemplateModule {
 				throw new IllegalArgumentException();
 
 			boolean bubble = Util.isTrue(element.getAttribute("bubble"), true);
+			boolean mkdir = Util.isTrue(element.getAttribute("mkdir"), false);
 			String fileName = CodeTemplateModuleContainer.instance()
 					.parseChilds(fileNameNode);
 			String scope = CodeTemplateModuleContainer.instance().parseChilds(
@@ -38,6 +40,13 @@ public class FileOutput implements CodeTemplateModule {
 			scopeDiv = split(scopeDiv, "\r\n");
 			scopeDiv = split(scopeDiv, "\r");
 			scopeDiv = split(scopeDiv, "\n");
+
+			if (mkdir) {
+				String folderName = fileName.substring(0, fileName
+						.lastIndexOf(File.separator));
+				File folder = new File(folderName);
+				folder.mkdirs();
+			}
 
 			FileOutputStream fos = new FileOutputStream(fileName);
 			OutputStreamWriter osw = new OutputStreamWriter(fos, "UTF-8");
