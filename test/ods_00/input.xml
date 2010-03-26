@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<template>
+<ods id="tid_00">
+	<file>ods_sample.ods</file>
+	<scope>
+		<for_view src="tid_00" did="0" id="tid_01">
+			<for_view src="tid_01" did="1" id="tid_02">
+				<for_view src="tid_02" did="2" id="tid_03">
+					<view_coor src="tid_03" did="0"/>_<view_coor src="tid_03" did="1"/>_<view_coor src="tid_03" did="2"/>=<view_value src="tid_03"/>
+				</for_view>
+			</for_view>
+		</for_view>
+	</scope>
+</ods>
+</template>

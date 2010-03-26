@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<msg_stu_def>
+	<msg_stu_pack name="basic" offset="0">
+		<msg_stu name="positive">
+			<element type="int32" name="msg_id"/>
+		</msg_stu>
+		<msg_stu name="negative">
+			<element type="int32" name="msg_id"/>
+		</msg_stu>
+	</msg_stu_pack>
+</msg_stu_def>

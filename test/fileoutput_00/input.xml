@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<template>
+<file_out><file>fileoutput_00_00.out</file><scope>
+HelloWorld!!! 0
+</scope></file_out>
+<file_out><file>fileoutput_00_01.out</file><scope>
+<helloworld/> 1
+</scope></file_out>
+<file_out bubble="1"><file>fileoutput_00_02.out</file><scope>
+HelloWorld!!! 2
+</scope></file_out>
+<file_out bubble="0"><file>fileoutput_00_03.out</file><scope>
+HelloWorld!!! 3
+</scope></file_out>
+</template>
