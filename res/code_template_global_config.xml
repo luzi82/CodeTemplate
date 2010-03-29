@@ -9,4 +9,6 @@
 	<module>guri.codetemplate.standardmodule.HelloWorld</module>
 	<module>guri.codetemplate.standardmodule.ods.OdsInputModule</module>
 	<module>guri.codetemplate.standardmodule.datatable.DataTableModule</module>
+	<module>guri.codetemplate.standardmodule.Replace</module>
+	<module>guri.codetemplate.standardmodule.UnXml</module>
 </code_template_global_config>
