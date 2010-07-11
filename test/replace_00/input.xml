@@ -1,0 +1,11 @@
+<template>
+<replace>
+<pair><from>\</from><to>\\</to></pair>
+<pair><from>'</from><to>\'</to></pair>
+<scope>
+Line1
+Line2
+Line3
+</scope>
+</replace>
+</template>

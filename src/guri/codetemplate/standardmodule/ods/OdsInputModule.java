@@ -15,6 +15,7 @@ import java.util.zip.ZipFile;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 import org.w3c.dom.Text;
 
 public class OdsInputModule implements CodeTemplateModule {
@@ -128,44 +129,58 @@ public class OdsInputModule implements CodeTemplateModule {
 						int colSpan = Util.getIntAttr(colElement,
 								"table:number-columns-spanned", 1);
 
-						Element txtElement = Util
-								.getUniqueChildElementInNodeName(colElement,
-										"text:p");
-						if (txtElement != null) {
-							Node txtElementChild = txtElement.getFirstChild();
+						// Element txtElement = Util
+						// .getUniqueChildElementInNodeName(colElement,
+						// "text:p");
+						NodeList textPList = colElement
+								.getElementsByTagName("text:p");
+						int textPListLength = textPList.getLength();
+						// if (txtElement != null) {
+						if (textPListLength > 0) {
 							StringBuffer valueBuffer = new StringBuffer();
-							while (txtElementChild != null) {
-								if (txtElementChild instanceof Text) {
-									Text txtElementChildT = (Text) txtElementChild;
-									String txt = txtElementChildT
-											.getNodeValue();
-									valueBuffer.append(txt);
-								} else if (txtElementChild instanceof Element) {
-									Element txtElementChildE = (Element) txtElementChild;
-									if (txtElementChildE.getNodeName().equals(
-											"text:s")) {
-										int length = 1;
-										String textC = txtElementChildE
-												.getAttribute("text:c");
-										if (textC != null && textC.length() > 0) {
-											length = Integer.parseInt(textC);
-										}
-										for (int i = 0; i < length; ++i) {
-											valueBuffer.append(" ");
-										}
-									} else if (txtElementChildE.getNodeName()
-											.equals("text:span")) {
-										valueBuffer
-												.append(txtElementChildE
-														.getFirstChild()
-														.getNodeValue());
-									}
+							for (int j = 0; j < textPListLength; ++j) {
+								if(j>0){
+									valueBuffer.append("\n");
 								}
-								txtElementChild = txtElementChild
-										.getNextSibling();
+								Node txtElement = textPList.item(j);
+								Node txtElementChild = txtElement
+										.getFirstChild();
+								while (txtElementChild != null) {
+									if (txtElementChild instanceof Text) {
+										Text txtElementChildT = (Text) txtElementChild;
+										String txt = txtElementChildT
+												.getNodeValue();
+										valueBuffer.append(txt);
+									} else if (txtElementChild instanceof Element) {
+										Element txtElementChildE = (Element) txtElementChild;
+										if (txtElementChildE.getNodeName()
+												.equals("text:s")) {
+											int length = 1;
+											String textC = txtElementChildE
+													.getAttribute("text:c");
+											if (textC != null
+													&& textC.length() > 0) {
+												length = Integer
+														.parseInt(textC);
+											}
+											for (int i = 0; i < length; ++i) {
+												valueBuffer.append(" ");
+											}
+										} else if (txtElementChildE
+												.getNodeName().equals(
+														"text:span")) {
+											valueBuffer.append(txtElementChildE
+													.getFirstChild()
+													.getNodeValue());
+										}
+									}
+									txtElementChild = txtElementChild
+											.getNextSibling();
+								}
 							}
 							for (int cw1 = 0; cw1 < rowRepeat + rowSpan - 1; ++cw1) {
-								for (int cw2 = 0; cw2 < colRepeat + colSpan - 1; ++cw2) {
+								for (int cw2 = 0; cw2 < colRepeat + colSpan
+										- 1; ++cw2) {
 									int cc1 = cw1 + intCoorZ;
 									int cc2 = cw2 + intCoorY;
 									// int[] cc = { cc1, cc2 };
